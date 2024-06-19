@@ -3,17 +3,22 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+img{
+    max-width: 100%;;
+}
+
 main{
-    padding: 10px;
-    max-width: 600px;
+    padding: 12px;
+    max-width: 700px;
     margin: auto
 }
 
 header{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-top: 24px;
     margin-bottom: 48px;
-
+    align-items: center;
 }
 
 header a {
@@ -23,9 +28,42 @@ header a {
 
 header a.logo{
     font-weight: bold;
+    font-size: 1.5rem;
 }
 
 header nav{
     display: flex;
     gap: 16px
+}
+
+div.post{
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+div.post div.text h2{
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+div.post p.info{
+    margin: 0;
+    margin: 4% 0;
+    color: #888;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: flex;
+    gap: 4px;
+}
+
+div.post p.info a.author{
+    color: #333;
+
+}
+
+div.post p.summary{
+    margin: 8px 0;
+    line-height: 1.4rem;
 }
