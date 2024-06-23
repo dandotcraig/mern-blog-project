@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 body{
     color: #333;
     font-family: Arial, Helvetica, sans-serif;
@@ -66,4 +70,35 @@ div.post p.info a.author{
 div.post p.summary{
     margin: 8px 0;
     line-height: 1.4rem;
+}
+
+form.login, form.register{
+    max-width: 400px;
+    margin:  0 auto;
+}
+
+input{
+    display: block;
+    margin-bottom: 6px;
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ddd;
+    background-color: #eee;
+    border-radius: 6px;
+    border-bottom: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    display: block;
+    background-color: blue;
+    border-radius: 6px;
+    border: 0;
+    padding: 6px;
+    color: white;
+}
+
+
+form h1 {
+    text-align: center;
 }
