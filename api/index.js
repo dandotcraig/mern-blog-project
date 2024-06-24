@@ -11,7 +11,7 @@ require('dotenv').config();
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.JWT_SECRET;
 
-app.use(cors({credentials:true, origin:'http://localhost:5173'}));
+app.use(cors({credentials:true, origin:'http://localhost:5174'}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -38,7 +38,10 @@ app.post('/login', async (request, response) => {
     if (passOk) {
         jwt.sign({username, id:UserDoc._id}, secret, {}, (error, token) => {
             if (error) throw error;
-            response.cookie('token', token).json('ok');
+            response.cookie('token', token).json({
+                id:UserDoc._id,
+                username,
+            });
         })
     } else {
         response.status(400).json('wrong user info')
@@ -53,5 +56,10 @@ app.get('/profile', (request, response) => {
     });
     response.json(request.cookies)
 });
+
+app.post('/logout', (request, response) => {
+    response.cookie('token', '').json('ok');
+});
+
 
 app.listen(4000);
