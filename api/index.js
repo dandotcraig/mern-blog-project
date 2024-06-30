@@ -2,11 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const User = require('./models/User');
+const Post = require('./models/Post.js')
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: 'uploads/' });
+const fs = require('fs');
+
 
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.JWT_SECRET;
@@ -54,11 +59,38 @@ app.get('/profile', (request, response) => {
         if (error) throw error;
         response.json(info)
     });
-    response.json(request.cookies)
+    // response. (request.cookies)
 });
 
 app.post('/logout', (request, response) => {
     response.cookie('token', '').json('ok');
+});
+
+app.post('/post', uploadMiddleware.single('file'), async (request, response) => {
+    const {originalname, path} = request.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path+'.'+ext;
+    fs.renameSync(path, newPath );
+
+    const {token} = request.cookies;
+    jwt.verify(token, secret, {}, async (error, info) => {
+        if (error) throw error;
+        const {title, summary, content} = request.body;
+        const postDoc = await Post.create({
+            title, 
+            summary,
+            content,
+            cover: newPath,
+            author: info.id,
+        });
+        response.json(postDoc);
+        response.json(info)
+    });
+});
+
+app.get('/post', async (request, response) => {
+    response.json(await Post.find().populate('author', ['username']));
 });
 
 
